@@ -114,11 +114,11 @@ public class MarketPlace {
     }
 
     public void addUser(String firstName, String lastName, int money) {
-        userList.add(new User(userList.size(), firstName, lastName, money));
+        userList.add(new User(userList.get(userList.size() - 1).getId() + 1, firstName, lastName, money));
     }
 
     public void addProduct(String name, int price) {
-        productsList.add(new Product(productsList.size(), name, price));
+        productsList.add(new Product(productsList.get(productsList.size() - 1).getId() + 1, name, price));
     }
 
     public void deleteUserById(int id) {

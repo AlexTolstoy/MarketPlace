@@ -4,9 +4,9 @@ package Person;
  * @author Alex Tolstoy
  */
 public class User {
-    private int id;
-    private String firstName;
-    private String lastName;
+    private final int id;
+    private final String firstName;
+    private final String lastName;
     private int money;
 
     public User(int id, String firstName, String lastName, int money) {
@@ -16,36 +16,12 @@ public class User {
         this.money = money;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
     }
 
     public boolean decreaseMoney(int count){
@@ -56,6 +32,11 @@ public class User {
         }
         return result;
     }
+
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return String.format("User's id: %d\nFirst Name: %s\nLast Name: %s\nAmount of money: %d.%02d",

@@ -1,10 +1,6 @@
 package Main;
 
 import MarketPlace.MarketPlace;
-import Person.User;
-import Product.Product;
-
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 /**
@@ -18,16 +14,12 @@ public class Main {
         showMenu();
         command = scanner.nextInt();
         while (command != 0){
-            int userId = 0;
-            int productId = 0;
-            switch(command){
-                case 1:
-                    marketPlace.showAllUsers();
-                    break;
-                case 2:
-                    marketPlace.showAllProducts();
-                    break;
-                case 3:
+            int userId;
+            int productId;
+            switch (command) {
+                case 1 -> marketPlace.showAllUsers();
+                case 2 -> marketPlace.showAllProducts();
+                case 3 -> {
                     System.out.println("Enter user's id");
                     userId = scanner.nextInt();
                     System.out.println("Enter product's id");
@@ -35,19 +27,47 @@ public class Main {
                     try {
                         marketPlace.buyProduct(userId, productId);
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        System.out.println(e.getMessage());
+                    } finally {
+
                     }
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.println("Enter user's id");
                     userId = scanner.nextInt();
                     marketPlace.showUserPurchaseById(userId);
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("Enter product's id");
                     productId = scanner.nextInt();
                     marketPlace.showUserByPurchaseProductId(productId);
-                    break;
+                }
+                case 6 -> {
+                    System.out.println("Enter first name:");
+                    String firstName = scanner.next();
+                    System.out.println("Enter last name:");
+                    String lastName = scanner.next();
+                    System.out.println("Enter amount of money:");
+                    int money = scanner.nextInt() * 100;
+                    marketPlace.addUser(firstName, lastName, money);
+                }
+                case 7 -> {
+                    System.out.println("Enter product name:");
+                    String name = scanner.next();
+                    System.out.println("Enter price:");
+                    int price = scanner.nextInt();
+                    marketPlace.addProduct(name, price);
+                }
+                case 8 -> {
+                    System.out.println("Enter user's id");
+                    userId = scanner.nextInt();
+                    marketPlace.deleteUserById(userId);
+                }
+                case 9 -> {
+                    System.out.println("Enter product's id");
+                    productId = scanner.nextInt();
+                    marketPlace.deleteProductById(productId);
+                }
             }
             showMenu();
             command = scanner.nextInt();
@@ -55,13 +75,19 @@ public class Main {
         scanner.close();
     }
     private static void showMenu(){
-        System.out.println("-----------------------\n" +
-                "Menu:\n1 - Display list of all users\n" +
-                "2 - Display list of all products\n" +
-                "3 - Buy product\n" +
-                "4 - Display list of user products by user id\n" +
-                "5 - Display list of users that bought product by product id\n" +
-                "0 - Exit\n" +
-                "Waiting for a command");
+        System.out.println("""
+                -----------------------
+                Menu:
+                1 - Display list of all users
+                2 - Display list of all products
+                3 - Buy product
+                4 - Display list of user products by user id
+                5 - Display list of users that bought product by product id
+                6 - Add new user
+                7 - Add new product
+                8 - Delete user by id
+                9 - Delete product by id
+                0 - Exit
+                Waiting for a command""");
     }
 }
