@@ -30,4 +30,8 @@ public class Purchase {
                 ", purchasedProducts=" + purchasedProducts +
                 '}';
     }
+
+    public ArrayList<Integer> getPurchasedProducts() {
+        return purchasedProducts;
+    }
 }

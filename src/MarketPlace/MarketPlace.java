@@ -26,25 +26,28 @@ public class MarketPlace {
         productsList.add(new Product(3, "OnePlus 10T", 90000));
 
     }
-    public void showAllUsers(){
-        for (User user : userList){
+
+    public void showAllUsers() {
+        for (User user : userList) {
             System.out.println(user.toString());
         }
     }
-    public void showAllProducts(){
-        for (Product product : productsList){
+
+    public void showAllProducts() {
+        for (Product product : productsList) {
             System.out.println(product.toString());
         }
     }
+
     public void buyProduct(int userId, int productId) throws Exception {
-        if (getUserById(userId) != null && getProductById(productId) != null){
-            if (getUserById(userId).decreaseMoney(getProductById(productId).getPrice())){
-                if (isUserPurchased(userId)){
-                     for (int i = 0; i < purchaseList.size(); i++){
-                         if (purchaseList.get(i).getUserId() == userId){
-                             purchaseList.get(i).addProduct(productId);
-                         }
-                     }
+        if (getUserById(userId) != null && getProductById(productId) != null) {
+            if (getUserById(userId).decreaseMoney(getProductById(productId).getPrice())) {
+                if (isUserPurchased(userId)) {
+                    for (int i = 0; i < purchaseList.size(); i++) {
+                        if (purchaseList.get(i).getUserId() == userId) {
+                            purchaseList.get(i).addProduct(productId);
+                        }
+                    }
                 } else {
                     purchaseList.add(new Purchase(userId, productId));
                 }
@@ -57,36 +60,78 @@ public class MarketPlace {
             }
         }
     }
-    private User getUserById(int id){
+
+    private User getUserById(int id) {
         if (id > 0 && id <= userList.size())
             return userList.get(id - 1);
         return null;
     }
-    private Product getProductById(int id){
+
+    private Product getProductById(int id) {
         if (id > 0 && id <= productsList.size())
             return productsList.get(id - 1);
         return null;
     }
-    private boolean isUserPurchased (int id){
+
+    private boolean isUserPurchased(int id) {
         boolean result = false;
-        for (Purchase purchase : purchaseList){
-            if (purchase.getUserId() == id )
+        for (Purchase purchase : purchaseList) {
+            if (purchase.getUserId() == id)
                 result = true;
         }
         return result;
     }
-    public void showAllPurchases(){
-        for (Purchase purchase : purchaseList){
+
+    public void showAllPurchases() {
+        for (Purchase purchase : purchaseList) {
             System.out.println(purchase.toString());
         }
     }
 
-    public void showUserPurchaseById(int id){
-        for (Purchase purchase : purchaseList){
-            if (purchase.getUserId() == id){
-                
-
+    public void showUserPurchaseById(int id) {
+        for (Purchase purchase : purchaseList) {
+            if (purchase.getUserId() == id) {
+                ArrayList<Integer> purchases = purchase.getPurchasedProducts();
+                System.out.println("User " + getUserById(id).getFirstName() + " "
+                        + getUserById(id).getLastName() + " purchases:");
+                for (Integer productsId : purchases) {
+                    System.out.println(getProductById(productsId).getName());
                 }
+            }
+        }
+    }
+
+    public void showUserByPurchaseProductId(int id) {
+        if (getProductById(id) != null) {
+            System.out.println("Product owners: ");
+            for (Purchase purchase : purchaseList) {
+                if (purchase.getPurchasedProducts().indexOf(id) >= 0) {
+                    System.out.println(getUserById(purchase.getUserId()).getFirstName() + " "
+                            + getUserById(purchase.getUserId()).getLastName());
+                }
+            }
+        }
+    }
+
+    public void addUser(String firstName, String lastName, int money) {
+        userList.add(new User(userList.size(), firstName, lastName, money));
+    }
+
+    public void addProduct(String name, int price) {
+        productsList.add(new Product(productsList.size(), name, price));
+    }
+
+    public void deleteUserById(int id) {
+        if (getUserById(id) != null) {
+            userList.remove(id - 1);
+        }
+    }
+
+    public void deleteProductById(int id) {
+        if (getProductById(id) != null) {
+            productsList.remove(id - 1);
+            for (int i = 0; i < purchaseList.size(); i++) {
+                purchaseList.get(i).getPurchasedProducts().remove(id - 1);
             }
         }
     }
